@@ -18,7 +18,7 @@ fun NotesScreen(vm: NotesViewModel = viewModel()) {
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
 
-    LaunchedEffect(Unit) { vm.refresh() }
+    // LaunchedEffect(Unit) { vm.refresh() }
 
     Column(Modifier.padding(16.dp)) {
         OutlinedTextField(
@@ -33,7 +33,7 @@ fun NotesScreen(vm: NotesViewModel = viewModel()) {
         Spacer(Modifier.height(8.dp))
         Button(onClick = {
             if (title.isNotBlank()) {
-                vm.add(title.trim(), content.ifBlank { null })
+                // vm.add(title.trim(), content.ifBlank { null })
                 title = ""; content = ""
             }
         }) { Text("Agregar") }

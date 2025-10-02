@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp") version "2.0.21-1.0.25"
+    alias(libs.plugins.ksp)
+//    id("com.google.devtools.ksp") version "2.0.21-1.0.25"
+    
 }
 
 android {
@@ -41,23 +43,28 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+
+    // Compose BOM + UI + Material3
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
-    // --- Room ---
+    // Navigation Compose
+    implementation("androidx.navigation:navigation-compose:2.8.0")
+    // o si tenés alias en el TOML:
+    // implementation(libs.navigation.compose)
+
+    // Room (KSP)
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-    implementation(libs.androidx.material3)
     ksp("androidx.room:room-compiler:2.6.1")
 
-    // --- ViewModel (también para Compose) ---
+    // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
 

@@ -18,33 +18,25 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.tracksolutions.ui.NotesScreen
 import com.example.tracksolutions.ui.theme.TrackSolutionsTheme
+import kotlinx.coroutines.launch
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.*
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
+import com.example.tracksolutions.ui.menu.AppDrawer
+import com.example.tracksolutions.ui.navigation.AppNavHost
+import com.example.tracksolutions.ui.navigation.Screen
+
+@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-//            TrackSolutionsTheme {
-//
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
-//            }
             TrackSolutionsTheme {
                 AppScaffold()
-//                val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-//                Scaffold(
-//                    modifier = Modifier.fillMaxSize(),
-//                    topBar = { CenterAlignedTopAppBar(title = { Text("AppTrack Notes") },
-//                        scrollBehavior = scrollBehavior) }
-//                ) { innerPadding ->
-//                    Surface(modifier = Modifier.padding(innerPadding)) {
-//                        NotesScreen()   // <- acá va tu pantalla
-//                    }
-//                }
             }
         }
     }
@@ -53,37 +45,49 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold() {
-    // Scroll behavior experimental de Material3
+    val navController = rememberNavController()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    Scaffold(
-        modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("AppTrack Notes") },
-                scrollBehavior = scrollBehavior
+    val items = listOf(
+        Screen.Clientes,
+        Screen.Productos,
+        Screen.Pedidos,
+        Screen.Reportes,
+        Screen.Zonas,
+        Screen.Paises
+    )
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            AppDrawer(
+                navController = navController,
+                drawerState = drawerState,
+                scope = scope,
+                items = items
             )
         }
-    ) { innerPadding ->
-        Surface(modifier = Modifier.padding(innerPadding)) {
-            NotesScreen()   // tu pantalla Compose con la lista/alta de notas
+    ) {
+        Scaffold(
+            modifier = Modifier
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = { Text("TrackSolutions") },
+                    navigationIcon = {
+                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                            Icon(Icons.Filled.Menu, contentDescription = "Menú")
+                        }
+                    },
+                    scrollBehavior = scrollBehavior
+                )
+            }
+        ) { innerPadding ->
+            Surface(Modifier.padding(innerPadding)) {
+                AppNavHost(navController = navController)
+            }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TrackSolutionsTheme {
-        Greeting("Android")
     }
 }
