@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "301455017319",
+    "project_id": "tracksolutions-uai",
+    "storage_bucket": "tracksolutions-uai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301455017319:android:6f9c3a18ba791f75e59bc2",
+        "android_client_info": {
+          "package_name": "com.example.tracksolutions"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVQPkbBlJBf1cXAKRaV9MksMREL9zby_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,12 +10,23 @@ import com.example.tracksolutions.data.entity.ClienteEntity
 import com.example.tracksolutions.data.entity.PaisEntity
 import com.example.tracksolutions.data.entity.ZonaEntity
 import com.example.tracksolutions.data.relations.ClienteConPaisZona
+import com.example.tracksolutions.data.sync.ClienteSyncRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ClientesViewModel(app: Application) : AndroidViewModel(app) {
+    private val dao by lazy { AppDb.get(app).clienteDao() }
+    private val sync by lazy { ClienteSyncRepository(dao) }
 
+    fun sincronizar() = viewModelScope.launch {
+        // 1) sube cambios locales
+        sync.push()
+        // 2) baja remotos nuevos
+        sync.pull()
+        // 3) refresca lista
+        refreshClientes()
+    }
     private val clienteDao: ClienteDao by lazy { AppDb.get(app).clienteDao() }
     private val catalogoDao: CatalogoDao by lazy { AppDb.get(app).catalogoDao() }
 

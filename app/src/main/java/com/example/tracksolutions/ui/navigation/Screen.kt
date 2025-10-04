@@ -7,4 +7,6 @@ sealed class Screen(val route: String, val title: String) {
     object Reportes : Screen("reportes", "Reportes")
     object Zonas : Screen("zonas", "Zonas")
     object Paises    : Screen("paises", "Países")
+
+    object ReportsMenu : Screen("reports/menu", "Reportes")
 }

@@ -10,12 +10,13 @@ import com.example.tracksolutions.ui.productos.ProductosScreen
 import com.example.tracksolutions.ui.zonas.ZonasScreen
 import com.example.tracksolutions.ui.pedidos.PedidosScreen
 import com.example.tracksolutions.ui.reportes.ReportesScreen
+import com.example.tracksolutions.ui.reportes.ReportsMenuScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Clientes.route
+        startDestination = Screen.Clientes.route,
     ) {
         composable(Screen.Clientes.route) { ClientesScreen() }
         composable(Screen.Productos.route) { ProductosScreen() }
@@ -23,5 +24,11 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.Reportes.route) { ReportesScreen() }
         composable(Screen.Zonas.route) { ZonasScreen() }
         composable(Screen.Paises.route) { PaisesScreen() }
+        composable(Screen.Reportes.route) {
+            ReportsMenuScreen(
+                onPlanEstimado = { navController.navigate("reports/run/estimado") },
+                onPlanReal     = { navController.navigate("reports/run/real") }
+            )
+        }
     }
 }

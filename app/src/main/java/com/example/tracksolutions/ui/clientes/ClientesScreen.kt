@@ -5,13 +5,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.room.jarjarred.org.antlr.v4.codegen.model.Sync
 import com.example.tracksolutions.data.entity.ClienteEntity
 import com.example.tracksolutions.data.entity.PaisEntity
 import com.example.tracksolutions.ui.viewmodel.ClientesViewModel
@@ -43,6 +46,12 @@ fun ClientesScreen(vm: ClientesViewModel = viewModel()) {
 
         // --- Formulario de Alta ---
         Text("Nuevo cliente", style = MaterialTheme.typography.titleMedium)
+        IconButton(onClick = { vm.sincronizar() }) {
+            Icon(
+                Icons.Default.Sync, contentDescription = "Sincronizar"
+            )
+        }
+
         Spacer(Modifier.height(8.dp))
 
         OutlinedTextField(
@@ -159,7 +168,7 @@ fun ClientesScreen(vm: ClientesViewModel = viewModel()) {
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier
-                .align(androidx.compose.ui.Alignment.BottomCenter)
+                .align(Alignment.BottomCenter)
                 .padding(12.dp)
         )
     }
